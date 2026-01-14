@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Churn Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Customer Churn Prediction</h1>
+      <form action="/predict" method="post" class="form">
+
+  <label>Gender</label>
+  <select name="gender" required>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+
+  <label>Senior Citizen</label>
+  <select name="SeniorCitizen">
+    <option value="0">No</option>
+    <option value="1">Yes</option>
+  </select>
+
+  <label>Partner</label>
+  <select name="Partner">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+
+  <label>Dependents</label>
+  <select name="Dependents">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+
+  <label>Tenure (months)</label>
+  <input type="number" name="tenure" min="0" required>
+
+  <label>Phone Service</label>
+  <select name="PhoneService">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+
+  <label>Multiple Lines</label>
+  <select name="MultipleLines">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No phone service">No phone service</option>
+  </select>
+
+  <label>Internet Service</label>
+  <select name="InternetService">
+    <option value="DSL">DSL</option>
+    <option value="Fiber optic">Fiber optic</option>
+    <option value="No">No</option>
+  </select>
+
+  <label>Online Security</label>
+  <select name="OnlineSecurity">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Online Backup</label>
+  <select name="OnlineBackup">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Device Protection</label>
+  <select name="DeviceProtection">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Tech Support</label>
+  <select name="TechSupport">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Streaming TV</label>
+  <select name="StreamingTV">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Streaming Movies</label>
+  <select name="StreamingMovies">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+    <option value="No internet service">No internet service</option>
+  </select>
+
+  <label>Contract</label>
+  <select name="Contract">
+    <option value="Month-to-month">Month-to-month</option>
+    <option value="One year">One year</option>
+    <option value="Two year">Two year</option>
+  </select>
+
+  <label>Paperless Billing</label>
+  <select name="PaperlessBilling">
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+  </select>
+
+  <label>Payment Method</label>
+  <select name="PaymentMethod">
+    <option value="Electronic check">Electronic check</option>
+    <option value="Mailed check">Mailed check</option>
+    <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+    <option value="Credit card (automatic)">Credit card (automatic)</option>
+  </select>
+
+  <label>Monthly Charges</label>
+  <input type="number" step="0.01" name="MonthlyCharges" required>
+
+  <label>Total Charges</label>
+  <input type="number" step="0.01" name="TotalCharges" required>
+
+  <button type="submit">Predict Churn</button>
+</form>
+      {% if prediction is defined %}
+<div class="result {% if probability > 0.6 %}high{% elif probability > 0.3 %}medium{% else %}low{% endif %}">
+    <h3>Churn Risk</h3>
+    <p class="risk-text">
+        {% if probability > 0.6 %}
+            🔴 High Risk
+        {% elif probability > 0.3 %}
+            🟡 Medium Risk
+        {% else %}
+            🟢 Low Risk
+        {% endif %}
+    </p>
+
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ percent }}%"></div>
+    </div>
+
+    <p class="probability">{{ percent }}% chance of churn</p>
+</div>
+{% endif %}
+
+    </div>
+  </body>
+</html>
